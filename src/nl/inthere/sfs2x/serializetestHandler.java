@@ -8,8 +8,10 @@ public class serializetestHandler extends BaseClientRequestHandler {
 
 	@Override
 	public void handleClientRequest(User player, ISFSObject params) {
-		// TODO Auto-generated method stub
-		TestObject testobj = (TestObject) params.getClass("testclass");
+		
+		TestObject testobj = (TestObject) params.getClass("TestObject");
+	
+		
 	}
 
 }

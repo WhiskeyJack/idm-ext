@@ -10,8 +10,15 @@ public class IdmExt extends SFSExtension {
 	public void init() {
 		
 		trace("IdmExt extension initialized");
+		
 		this.addRequestHandler("math", MathHandler.class);
-		// this.addRequestHandler("serializetest", serializetestHandler.class);
+		
+		this.addRequestHandler("serializetest", serializetestHandler.class);
+		
+		
+		
+		
+		
 		
 	}
 	

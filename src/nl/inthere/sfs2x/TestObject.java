@@ -8,11 +8,12 @@ public class TestObject implements SerializableSFSType {
     public String strField;
     public Boolean boolField;
     public double doubleField;
-
-  
-    public String GetJavaPackageName ()
+    
+    public TestObject()
     {
-       return "";
+    	// empty constructor
     }
+  
+
 
 }
