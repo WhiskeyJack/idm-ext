@@ -12,7 +12,7 @@ public class MathHandler extends BaseClientRequestHandler {
 	public void handleClientRequest(User player, ISFSObject params) {
 		IdmExt parentEx = (IdmExt) getParentExtension();
 		
-		int n1 = params.getInt("n1");
+		// int n1 = params.getInt("n1");
 		int n2 = params.getInt("n2");
 		
 		int totalval =  parentEx.getTotalVal();
