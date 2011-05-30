@@ -30,15 +30,17 @@ public class submitRoundDataHandler extends BaseClientRequestHandler {
 		 for (PlayerData pd : parentEx.playerDataList )
 		 {
 			 // check for duplicate, if do not add
+			 trace("Checking for duplicate");
 			 if (pd.room == roomId && pd.playerId == playerId && pd.round == currentRound)		
 				 continue;
 			 
+			 trace("Adding playerdata to list");
 			 PlayerData newPd = new PlayerData();
 			 newPd.room = roomId;
 			 newPd.playerId = playerId;
 			 newPd.round = currentRound;
 			 newPd.player = player;
-			 newPd.role = 
+			 newPd.role = role;
 			 newPd.playerRoundData = playerRoundData;
 			 parentEx.playerDataList.add(newPd);
 		 }
@@ -46,6 +48,7 @@ public class submitRoundDataHandler extends BaseClientRequestHandler {
 		 // check if we have data for all players for this round by putting counting the list
 		 List<PlayerData> playerDataRound = new ArrayList<PlayerData>();
 		
+		 
 		 for (PlayerData pd : parentEx.playerDataList )
 		 {
 			 // continue if player data is not for current room or current rond
@@ -54,10 +57,14 @@ public class submitRoundDataHandler extends BaseClientRequestHandler {
 			 
 			 // add player data to list if user of player data is in current room
 			 if (playerRoom.getUserList().contains(pd.player) )
+			 {
 				 playerDataRound.add(pd);
+				 trace("Adding player data to temp list"); 
+			 }
 		 }
 		 
 		 // if list count equals users in room, then we got all data, send back
+		 trace("Checking if we have data for all " + playerCount + " players in the room");
 		 if (playerDataRound.size() == playerCount) 
 		 {
 			 trace("Got data from all " + playerCount +  " players in the room, sending result back");
@@ -69,17 +76,6 @@ public class submitRoundDataHandler extends BaseClientRequestHandler {
 			 parentEx.send("receiveRoundData", roundData , playerRoom.getUserList()   );
 			 
 		 }
-		
-		
-		
-		
-		
-		
-		String role = playerRoundData.getUtfString("role");
-		
-		trace("Round data received for role " + role + " from user " + player.toString() + ":");
-		trace( playerRoundData.getDump()  );
-		
 		
 	}
 
