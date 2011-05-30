@@ -23,8 +23,6 @@ public class IdmExt extends SFSExtension {
 		
 		this.addRequestHandler("submitdata", submitdataHandler.class);
 		
-		this.addRequestHandler("submitenv", submitEnvelopeHandler.class);
-		
 		this.addRequestHandler("submitRoundData", submitRoundDataHandler.class);
 		
 	}
