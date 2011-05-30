@@ -1,22 +1,18 @@
 package nl.inthere.sfs2x;
 
-import java.util.List;
-
-import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 
 public class submitdataHandler extends BaseClientRequestHandler {
 
 	@Override
 	public void handleClientRequest(User player, ISFSObject params) {
-		IdmExt parentEx = (IdmExt) getParentExtension();
-		int roomId = params.getInt("roomId");
-		int roundNr = params.getInt("roundNr");
+		// IdmExt parentEx = (IdmExt) getParentExtension();
+		// int roomId = params.getInt("roomId");
+		// int roundNr = params.getInt("roundNr");
 		// String data = params.getUtfString("data");
-		Room currentRoom = parentEx.getParentZone().getRoomById(roomId);
+		// Room currentRoom = parentEx.getParentZone().getRoomById(roomId);
 		
 		// add data for this user to room variable
 		
@@ -27,7 +23,7 @@ public class submitdataHandler extends BaseClientRequestHandler {
 		//rtn.putInt("roomId", roomId);
 		// parentEx.send("startgame", rtn, roomUsers);
 		
-		trace("Received data for round " + roundNr + " from user " + player.toString());
+		// trace("Received data for round " + roundNr + " from user " + player.toString());
 		
 		// if data received for maxusers, send back
 		// List<User> roomUsers = currentRoom.getUserList();

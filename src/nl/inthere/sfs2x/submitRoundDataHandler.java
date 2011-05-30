@@ -13,45 +13,39 @@ public class submitRoundDataHandler extends BaseClientRequestHandler {
 	
 	@Override
 	public void handleClientRequest(User player, ISFSObject params) {
+		trace("Submit rounddata handler called");
+		
 		IdmExt parentEx = (IdmExt) getParentExtension();	
-        trace("Submit rounddata handler called");
-
 		SFSObject playerRoundData = (SFSObject)params.getSFSObject("roundData");
 		
-		 int playerId = player.getPlayerId();
-		 Room playerRoom = player.getLastJoinedRoom(); 
-		 int roomId = playerRoom.getId();
-		 int currentRound = playerRoundData.getInt("round");
-		 String role = playerRoundData.getUtfString("role");
-		 int playerCount = playerRoom.getSize().getUserCount();
-		  
-		 
+		int playerId = player.getPlayerId();
+		Room playerRoom = player.getLastJoinedRoom(); 
+		int roomId = playerRoom.getId();
+		int currentRound = playerRoundData.getInt("round");
+		int playerCount = playerRoom.getSize().getUserCount();
+		
 		 // add round data to playerdata list
-		 for (PlayerData pd : parentEx.playerDataList )
+		 if ( parentEx.playerDataList.size() == 0)
+			AddPlayerDataToList(player, playerRoundData, parentEx);
+		 else 
 		 {
-			 // check for duplicate, if do not add
-			 trace("Checking for duplicate");
-			 if (pd.room == roomId && pd.playerId == playerId && pd.round == currentRound)		
-				 continue;
-			 
-			 trace("Adding playerdata to list");
-			 PlayerData newPd = new PlayerData();
-			 newPd.room = roomId;
-			 newPd.playerId = playerId;
-			 newPd.round = currentRound;
-			 newPd.player = player;
-			 newPd.role = role;
-			 newPd.playerRoundData = playerRoundData;
-			 parentEx.playerDataList.add(newPd);
+			 for (PlayerData pd : parentEx.playerDataList )
+			 {
+				// check for duplicate, if do not add
+				trace("Checking for duplicate");
+				if (pd.room == roomId && pd.playerId == playerId && pd.round == currentRound)		
+					continue;
+	
+				AddPlayerDataToList(player, playerRoundData, parentEx);
+			 }
 		 }
 		 
 		 // check if we have data for all players for this round by putting counting the list
 		 List<PlayerData> playerDataRound = new ArrayList<PlayerData>();
 		
-		 
 		 for (PlayerData pd : parentEx.playerDataList )
 		 {
-			 // continue if player data is not for current room or current rond
+			 // continue if player data is not for current room or current round
 			 if (pd.room != roomId || pd.round != currentRound)	
 				 continue;
 			 
@@ -74,9 +68,31 @@ public class submitRoundDataHandler extends BaseClientRequestHandler {
 				 roundData.putSFSObject(pd.role, pd.playerRoundData);
 			 
 			 parentEx.send("receiveRoundData", roundData , playerRoom.getUserList()   );
-			 
 		 }
+		 else
+			 trace("Not all data was received");
 		
+	}
+	
+	
+	public void AddPlayerDataToList(User player, SFSObject data, IdmExt parentEx)
+	{
+		trace("Adding playerdata to list");
+		
+		int playerId = player.getPlayerId();
+		Room playerRoom = player.getLastJoinedRoom(); 
+		int roomId = playerRoom.getId();
+		int currentRound = data.getInt("round");
+		String role = data.getUtfString("role");
+		 
+		PlayerData newPd = new PlayerData();
+		newPd.room = roomId;
+		newPd.playerId = playerId;
+		newPd.round = currentRound;
+		newPd.player = player;
+		newPd.role = role;
+		newPd.playerRoundData = data;
+		parentEx.playerDataList.add(newPd);
 	}
 
 }
